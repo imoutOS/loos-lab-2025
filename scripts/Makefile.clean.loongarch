@@ -1,0 +1,12 @@
+include ${src_tree}/scripts/Makefile.include
+
+ifeq ("${ARCH}","loongarch")
+clean:
+	$Q${RM} ${LOOUTPUT_DIR}
+	@${ECHO} $(call QUIET_CLEAN,LONGARCHOUT)
+.PHONY: clean
+else
+__none:
+	@${ECHO} $(call QUIET_CLEAN,)
+.PHONY: __none
+endif

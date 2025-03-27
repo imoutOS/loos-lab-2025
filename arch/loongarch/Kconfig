@@ -1,0 +1,22 @@
+config ARCH_LOONGARCH
+    bool "loongarch config"
+    default y
+    help
+      this is a arch_default config_target
+      this is useful when we want to know our arch in code
+      help to generate autoconf.h so we can use in code
+      remember do not change it forever
+
+menu "a trick to select ARCH_LOONGARCH"
+visible if False
+    config ARCH_TEST18927389123123
+        bool "a trick config"
+        default y
+        select ARCH_LOONGARCH
+        help
+          a trick config and menu to
+          select ARCH_LOONGARCH config
+          to let user can not change it
+endmenu 
+
+source "arch/$(ARCH)/board/Kconfig"

@@ -1,0 +1,6 @@
+
+menu "ISA Specific Options"
+
+source "arch/$(ARCH)/Kconfig"
+
+endmenu

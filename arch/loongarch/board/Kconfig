@@ -1,0 +1,29 @@
+choice
+    prompt "select loong board"
+    default QEMU_VIRT
+    help
+      select loongarch board
+      this will affect dts path
+
+    config QEMU_VIRT
+        bool "qemu board"
+
+    config 2K100
+        bool "2k100 board"
+
+endchoice
+
+menu "dts config"
+# do not let user know it
+# but actually we will use is in kbuild system
+visible if False
+
+config DTS_PATH
+    string "dts path"
+    default "$(src_tree)/arch/$(ARCH)/board/qemu_loongarch_virt/device.dts" if QEMU_VIRT
+    default "$(src_tree)/arch/$(ARCH)/boatd/2k100/device.dts" if 2K100
+    help
+      device tree path
+      it is only effected by BOARD_SELECT
+
+endmenu

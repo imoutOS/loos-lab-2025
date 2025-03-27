@@ -1,0 +1,65 @@
+SHELL_TERMINAL_ENABLE=
+
+ifndef ARCH
+  $(error "panic !! no ARCH defined")
+endif
+
+ifndef CROSS_COMPILE
+  $(error "panic !! no CROSS_COMPILE defined")
+endif
+
+ifneq ("${ARCH}","loongarch")
+  $(error "panic !! this target only support for loongarch")
+endif
+
+QEMUIMG 	:= qemu-img
+MKFS		:= mkfs.vfat
+SUDO		= sudo
+
+TOOL_EXIST	:= $(shell command -v ${QEMUIMG})
+ifeq ("${TOOL_EXIST}","")
+  $(error "panic !! qemu-img tool not on the host!!! you must install it first")
+endif
+TOOL_EXIST	:= $(shell command -v ${MKFS})
+ifeq ("${TOOL_EXIST}","")
+  $(error "panic !! mkfs.vfat tool not on the host!!! you must install it first")
+endif
+
+MKFS		:= ${MKFS} -F 32
+
+OUTPUTDIR 	= ${LOOUTPUT_DIR}
+BOOTDEV 	= ${OUTPUTDIR}/bootdev.img
+IMGSIZE 	?= 1G
+MOUNTP 		?=${OUTPUTDIR}/media
+BIN 		= ${OUTPUTDIR}/kernel.bin
+QEMUDIR		= ${LOQEMU_DIR}
+
+${BIN}: ${TARGET}
+	@${MKDIR} $(dir $@)
+	$Q${OBJCOPY} -O binary $< $@
+	@${ECHO} $(call QUIET_OBJCOPY,$@)
+
+
+${BOOTDEV}: ${BIN}
+	@${MKDIR} $(dir $@)
+	$Q${QEMUIMG} create $@ ${IMGSIZE} -f raw
+	${MKFS} $@
+	${MKDIR} ${MOUNTP}
+	${SUDO} mount $@ ${MOUNTP}
+	${SUDO} ${MKDIR} ${MOUNTP}/boot
+	${SUDO} cp $< ${MOUNTP}/boot/$(notdir $<)
+	${SUDO} umount ${MOUNTP}
+
+
+run: ${BOOTDEV}
+	cp $< ${QEMUDIR}/2k1000/boot.img
+	cp -rfuT ${QEMUDIR} /tmp/qemu
+	cd ${QEMUDIR}; ./runqemu
+
+debug: ${BOOTDEV}
+	cp $< ${QEMUDIR}/2k1000/boot.img
+	cp -rfuT ${QEMUDIR} /tmp/qemu
+	${SHELL_TERMINAL} -e ${GDB} -ex "target remote 0.0.0.0:3456" ${TARGET} 2>&1 1> /dev/null &
+	cd ${QEMUDIR}; ./runqemu-debug
+
+.PHONY: run debug

@@ -1,0 +1,7 @@
+LD_MODE ?= elf64loongarch
+LDFLAGS += -T ${src_tree}/arch/loongarch/loongarch64.lds
+LDFLAGS += -m ${LD_MODE}
+MARCH ?= loongarch64
+MABI ?= lp64f
+CFLAGS  += -march=${MARCH} -mabi=${MABI}
+ASFLAGS += -mabi=${MABI}

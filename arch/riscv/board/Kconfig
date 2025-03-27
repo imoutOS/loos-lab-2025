@@ -1,0 +1,32 @@
+choice 
+    prompt "select riscv board"
+    help
+     this choice select a target riscv board
+     different board has different dts and phy memorylayout
+    default BOARD_RV64QEMU_VIRT
+
+config BOARD_RV64QEMU_VIRT
+    bool "riscv64 qemu virt machine"
+    help
+      riscv64 qemu board select
+    
+config BOARD_VISIONFIVE2
+    bool "visionfive2 board"
+    help
+      riscv64 visionfive2 board select
+
+endchoice
+
+menu "dts config"
+#make all menu not visible to user
+#but we can use in the kbuild system or in the code
+visible if False
+
+config DTS_PATH
+    string "dts path"
+    default "$(src_tree)/arch/$(ARCH)/board/qemu_riscv64_virt/device.dts" if BOARD_RV64QEMU_VIRT
+    default "$(src_tree)/arch/$(ARCH)/board/visionfive2/device.dts" if BOARD_VISIONFIVE2
+    help 
+      device tree path
+      it is only effected by BOARD_SELECT
+endmenu 

@@ -1,0 +1,39 @@
+menu "Debugging and Assertion Options"
+
+config ENABLE_DEBUG
+    bool "Enable Debugging Output (Log/Assert)"
+    default y
+    help
+      Enables debug logging (Log macro) and runtime assertion checks.
+      Disabling this will remove all debug output and assertions from the build.
+
+config FORCE_PANIC_MESSAGES
+    bool "Always Show Panic Messages"
+    depends on ENABLE_DEBUG
+    default n
+    help
+      Even when debug is disabled, panic() will still print messages.
+      This forces panic messages to always be visible regardless of debug mode.
+
+config LOG_LEVEL
+    int "Log Verbosity Level (0-4)"
+    range 0 4
+    default 2
+    depends on ENABLE_DEBUG
+    help
+      0: Emergency
+      1: Critical
+      2: Info
+      3: Debug
+      4: Trace
+
+config ASSERT_HALT_BEHAVIOR
+    bool "Halt System on Assertion Failure"
+    default y
+    help
+      Call halt(1) when an assertion fails. Disable this if you want to
+      continue execution after failed assertions (not recommended).
+
+endmenu
+
+source "arch/Kconfig"

@@ -1,0 +1,15 @@
+#!/usr/bin/env python3.9
+
+import re
+from gradelib import *
+
+r = Runner(save("loos.out"))
+@test(5, "uname test")
+def test_uname():
+    r.run_qemu(shell_script([
+        'busybox uname -a', 'exit'
+    ]))
+    r.match(no=["exec .* failed", "LinuXXX"])
+
+run_tests()
+

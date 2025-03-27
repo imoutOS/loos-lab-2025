@@ -1,0 +1,11 @@
+obj-y += exec.o
+obj-y += kmain.o
+obj-y += proc.o
+obj-y += sche.o
+obj-y += _start.o
+obj-y += swtch.o
+obj-y += syscall.o
+obj-y += trap.o
+obj-y += trap_entry.o
+obj-y += user.o
+obj-y += time.o

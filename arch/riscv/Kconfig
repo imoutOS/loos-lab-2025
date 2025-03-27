@@ -1,0 +1,23 @@
+config ARCH_RISCV
+    bool "riscv arch config"
+    default y
+    help
+      this is a arch_default config_target
+      this is useful when we want to know our arch in code
+      help to generate autoconf.h so we can use in code
+      remember do not change it forever
+
+menu "a trick to select ARCH_RISCV"
+visible if False
+    config ARCH_TEST128273198
+        bool "trick config"
+        default y
+        select ARCH_RISCV
+        help
+          the menu and config is just a trick
+          and will not port to user, but it can
+          select ARCH_RISCV config , let user can
+          not change it 
+endmenu
+
+source "arch/$(ARCH)/board/Kconfig"

@@ -1,0 +1,15 @@
+
+CFLAGS  += -mcmodel=medany
+CFLAGS  += -fno-common -static -fno-pie -fno-pic
+LDFLAGS += -z max-page-size=4096 -T ${src_tree}/arch/${ARCH}/riscv.lds
+
+PHONY += arch_target
+arch_target: ${src_tree}/arch/${ARCH}/kernel.bin board_dtb
+
+${src_tree}/arch/${ARCH}/kernel.bin: ${TARGET}
+	$Q${OBJCOPY} -O binary $< $@
+	@${ECHO} $(call QUIET_OBJCOPY,$@)
+
+PHONY += board_dtb
+board_dtb: kconfig_sync hosttool_compile
+	$Q${MAKE} -C ${src_tree} -f ${src_tree}/scripts/Makefile.dtb

@@ -1,0 +1,15 @@
+include ${src_tree}/scripts/Makefile.include
+-include ${KCONFIG_AUTOCONF}
+
+ifndef CONFIG_DTS_PATH
+clean:
+	@${ECHO} $(call QUIET_CLEAN,DTB)
+else
+ABS_DTS_PATH := ${CONFIG_DTS_PATH}
+ABS_DTB_PATH := $(patsubst %.dts,%.dtb,${ABS_DTS_PATH})
+clean:
+	$Q${RM} ${ABS_DTB_PATH}
+	@${ECHO} $(call QUIET_CLEAN,DTB)
+endif
+
+.PHONY: clean
