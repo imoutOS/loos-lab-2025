@@ -5,6 +5,7 @@
 This repo store the source code of LoOS, a LoongArch based operating system.
 
 ## 构建系统/开发环境搭建
+[开发运行环境](docs/User_use/User_use.md)
 
 ### GCC/Binutils 工具链
 
@@ -20,7 +21,7 @@ This repo store the source code of LoOS, a LoongArch based operating system.
 
 ### LoongArch 体系结构
 
-Mainly the notes learning LoongArch ISA.
+mainly the notes learning LoongArch ISA.
 
 [龙芯体系结构概览](docs/loongarch/index.md)
 
@@ -54,16 +55,31 @@ Mainly the notes learning LoongArch ISA.
 
 ### Branch 规范
 
-`main` 分支用于存储稳定的 LoOS 版本，其内容需要确保能够编译。
+`master` 分支用于存储稳定的 LoOS 版本，其内容需要确保能够编译。
 
 `devel` 分支用于存储最新的 LoOS 开发版本。
 
-`judge-deploy` 分支用于存储评测时使用的分支。理论上其只能是对 `main` 分支的同
+`judge-deploy` 分支用于存储评测时使用的分支。理论上其只能是对 `master` 分支的同
+### Branch 规范
+
+`master` 分支用于存储稳定的 LoOS 版本，其内容需要确保能够编译。
+
+`devel` 分支用于存储最新的 LoOS 开发版本。
+
+`judge-deploy` 分支用于存储评测时使用的分支。理论上其只能是对 `master` 分支的同步。
+
+其中，`master` 分支和 `devel` 分支是 "protected branch" ，对它们两个分支的修改必须经过
+“ 新建针对某特性开发的 branch ” - “ 发起 merge request ” - “ maintainer 将其
+merge 进入 devel/master ” 的过程。
+
+### Commit 规范
+
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 步。
 
-其中，`main` 分支和 `devel` 分支是 "protected branch" ，对它们两个分支的修改必须经过
-“ 新建针对某特性开发的 branch ” - “ 发起 merge request ” - “ Maintainer 将其
-merge 进入 devel/main ” 的过程。
+其中，`master` 分支和 `devel` 分支是 "protected branch" ，对它们两个分支的修改必须经过
+“ 新建针对某特性开发的 branch ” - “ 发起 merge request ” - “ mastertainer 将其
+merge 进入 devel/master ” 的过程。
 
 ### Commit 规范
 
