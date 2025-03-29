@@ -19,10 +19,12 @@ ARCH=loongarch CROSS_COMPILE=0 make lodownload
 ARCH=loongarch CROSS_COMPILE=0 make menuconfig
 ARCH=loongarch CROSS_COMPILE=/home/<username>/loos-lab-2025/toolchain/loongarch/gcc-13.2.0-loongarch64-linux-gnu-nw/bin/loongarch64-linux-gnu- make lorunqemu
 ```
-menuconfig 中将 debug 模式去掉
+menuconfig 中将 debug 模式去掉，
+
 最后一行运行命令 也可以先设置环境变量，之后每次都只用 make run。
 ```shell
 export ARCH=loongarch CROSS_COMPILE=/home/<username>/loos-lab-2025/toolchain/loongarch/gcc-13.2.0-loongarch64-linux-gnu-nw/bin/loongarch64-linux-gnu- 
+
 make lorunqemu
 ```
 
